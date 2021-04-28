@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, Button, Alert} from 'react-native';
-import Square from './Square.js';
+import React, { useState } from "react";
+import { View, StyleSheet, Button, Alert } from "react-native";
+import Square from "./Square.js";
 
 const Board = () => {
   const [board, setBoard] = useState([
@@ -8,6 +8,7 @@ const Board = () => {
     [0, 0, 0],
     [0, 0, 0],
   ]);
+  const [playerTurn, setPlayersTurn] = useState(1);
 
   const resetGame = () => {
     setPlayersTurn(1);
@@ -18,9 +19,17 @@ const Board = () => {
     ]);
   };
 
-  const [playerTurn, setPlayersTurn] = useState(1);
+  const winnerAlert = (winner) => {
+    Alert.alert("The Winner is...", winner, [
+      {
+        text: "OK",
+        onPress: () => resetGame(),
+      },
+    ]);
+  };
 
   const playerMove = (row, col) => {
+    // fixes changing of marker after set
     const ownsSquare = board[row][col];
     if (ownsSquare) {
       return;
@@ -28,24 +37,15 @@ const Board = () => {
     let boardArray = [...board];
     boardArray[row][col] = playerTurn;
     setBoard(boardArray);
+    // changes players turn
     setPlayersTurn(playerTurn === 1 ? 5 : 1);
 
     const gameWinner = checkBoard();
 
     if (gameWinner === 1) {
-      Alert.alert('The Winner is...', 'Player 1', [
-        {
-          text: 'OK',
-          onPress: () => resetGame(),
-        },
-      ]);
+      winnerAlert("Player 1");
     } else if (gameWinner === 2) {
-      Alert.alert('The Winner is...', 'Player 2', [
-        {
-          text: 'OK',
-          onPress: () => resetGame(),
-        },
-      ]);
+      winnerAlert("Player 2");
     }
   };
 
@@ -146,7 +146,7 @@ const Board = () => {
       <View style={styles.buttonContainerStyle}>
         <Button
           title="Start Over"
-          color={'#0f2b2a'}
+          color={"#0f2b2a"}
           onPress={() => resetGame()}
         />
       </View>
@@ -157,47 +157,47 @@ const Board = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   boxSize: {
     width: 75,
     height: 75,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   left: {
     borderRightWidth: 2,
-    borderRightColor: '#0f2b2a',
+    borderRightColor: "#0f2b2a",
     borderBottomWidth: 2,
-    borderBottomColor: '#0f2b2a',
+    borderBottomColor: "#0f2b2a",
   },
   topMiddle: {
     borderBottomWidth: 2,
-    borderBottomColor: '#0f2b2a',
+    borderBottomColor: "#0f2b2a",
   },
   right: {
     borderLeftWidth: 2,
-    borderLeftColor: '#0f2b2a',
+    borderLeftColor: "#0f2b2a",
     borderBottomWidth: 2,
-    borderBottomColor: '#0f2b2a',
+    borderBottomColor: "#0f2b2a",
   },
   bottomLeft: {
     borderLeftWidth: 2,
-    borderLeftColor: '#0f2b2a',
+    borderLeftColor: "#0f2b2a",
   },
   bottomRight: {
     borderRightWidth: 2,
-    borderRightColor: '#0f2b2a',
+    borderRightColor: "#0f2b2a",
   },
   buttonContainerStyle: {
-    backgroundColor: '#e5fbee',
+    backgroundColor: "#e5fbee",
     marginTop: 100,
     borderWidth: 1,
     borderRadius: 50 / 2,
-    borderColor: '#3ed899',
+    borderColor: "#3ed899",
   },
 });
 
