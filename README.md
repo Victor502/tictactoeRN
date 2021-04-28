@@ -1,4 +1,4 @@
-# React native Version of Tic Tac Toe
+# React Native Version of Tic Tac Toe (works on both Android & iOS)
 
 -  2 Player game
 -  X goes first
